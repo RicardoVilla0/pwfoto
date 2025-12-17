@@ -1,0 +1,201 @@
+/* src/app/shared/header/header.css
+   Header mejorado: tipografía Inter, grises tenues y onda inferior irregular.
+*/
+
+/* Importamos Inter (si ya la importaste globalmente en app.css puedes quitar esto) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --header-bg: #ffffff;
+  --page-bg: #f5f6f7;        /* gris plateado muy suave */
+  --muted-gray: #6f7376;     /* texto gris tenue */
+  --accent: #0e0e0e;
+  --glass: rgba(255,255,255,0.96);
+  --shadow-soft: 0 12px 36px rgba(0,0,0,0.06);
+  --radius: 12px;
+  --wave-height: 92px;      /* ajustar para mayor/menor curvatura */
+}
+
+/* Base del header */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  background: var(--header-bg);
+  color: var(--accent);
+  padding: 14px 0;
+  box-shadow: var(--shadow-soft);
+  overflow: visible; /* importante para que la onda no corte el nav */
+  transition: padding .18s ease, box-shadow .18s ease, background .18s ease;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Contenido del header (encapsula todo y se sitúa por encima de la onda) */
+.header-inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 18px;
+  position: relative;
+  z-index: 3; /* siempre por encima de la onda */
+}
+
+/* Onda inferior irregular - SVG embebido como background en ::after
+   Tiene z-index bajo para quedar detrás del contenido del header */
+.site-header::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: var(--wave-height);
+  pointer-events: none;
+  z-index: 1; /* menos que .header-inner (3) para no taparlo */
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  /* SVG con varias curvas para un aspecto menos simétrico y más orgánico.
+     El fill corresponde al color de fondo de la página (--page-bg) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'><path d='M0,16 C90,46 210,88 360,72 C510,56 630,18 780,34 C930,50 1050,86 1200,62 L1200,120 L0,120 Z' fill='%23f5f6f7'/><path d='M0,36 C160,82 320,12 480,36 C640,60 800,12 960,36 C1080,52 1140,90 1200,74 L1200,120 L0,120 Z' fill='%23f7f8f9' opacity='0.65'/></svg>");
+}
+
+/* Ajuste al hacer scroll: header más compacto */
+.site-header.scrolled{
+  padding: 8px 0;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+/* Logo */
+.logo a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+.logo img{
+  height:44px;
+  display:block;
+  object-fit:contain;
+  border-radius:8px;
+  transition: transform .14s ease;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+}
+.site-header.scrolled .logo img{ transform: scale(0.94); }
+
+/* Navegación principal - alto contraste con grises suaves */
+.main-nav{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  justify-content:center;
+  flex: 1 1 auto;
+  z-index: 4; /* por encima de la onda */
+}
+.main-nav a{
+  color: var(--muted-gray);
+  text-decoration:none;
+  font-weight:600;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background .12s ease, color .12s ease, transform .12s ease;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.main-nav a:hover{
+  color: var(--accent);
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-2px);
+}
+.main-nav a.active{
+  color: var(--accent);
+  background: rgba(0,0,0,0.06);
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.02);
+}
+
+/* Acciones a la derecha */
+.right-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  z-index: 4;
+}
+.photographer-entry{
+  font-weight:700;
+  text-decoration:none;
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.photographer-entry:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+}
+
+/* Botón menú (móvil) */
+.menu-btn{
+  display:none;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+/* Responsive: colapsa la nav en pantallas pequeñas */
+@media (max-width: 920px){
+  .menu-btn{ display:block; }
+  .main-nav{
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 12px;
+    right: 12px;
+    background: var(--header-bg);
+    flex-direction: column;
+    gap: 0;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform .18s ease, opacity .12s ease;
+    opacity: 0;
+    z-index: 1205;
+  }
+  .main-nav.open{
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  .main-nav a{
+    padding: 14px 18px;
+    border-radius: 8px;
+    text-align:center;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+  }
+  .main-nav a:last-child{ border-bottom: none; }
+}
+
+/* fallback si el SVG no se muestra: un borde redondeado suave */
+@supports not (background-image: url("data:image/svg+xml;utf8,<svg/>")) {
+  .site-header::after{
+    background: linear-gradient(180deg, rgba(245,246,247,0.8), rgba(249,249,249,0.8));
+    height: 48px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
+/* pequeños ajustes de accesibilidad y legibilidad */
+a { color: inherit; }
+
+/* agrega a header.css (o reemplaza si ya tienes reglas similares) */
+.right-actions { display:flex; align-items:center; gap:10px; }
+.guest-area .photographer-entry { margin-right:6px; text-decoration:none; padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:inherit; }
+.user-area { display:flex; gap:8px; align-items:center; }
+.user-btn { background:transparent; border:0; font-weight:700; cursor:pointer; padding:6px 8px; }
+.profile-link { text-decoration:underline; cursor:pointer; color:inherit; font-weight:600; }
+.signout { background:transparent; border:0; color:#b02a2a; cursor:pointer; padding:6px 8px; }

@@ -1,0 +1,69 @@
+<!-- src/app/pages/exhibition/exhibition/exhibition.html -->
+<section class="exhibition-hero">
+  <div class="container">
+    <h1 class="title">Exposiciones</h1>
+    <p class="subtitle">Muestra de trabajos fotográficos: cada imagen incluye título, breve descripción, fecha, lugar y características técnicas.</p>
+  </div>
+</section>
+
+<section class="exhibitions-list container" aria-label="Listado de exposiciones">
+  <div class="grid">
+    <article
+      class="expo-card"
+      *ngFor="let e of exposiciones; let i = index"
+      (click)="verDetalle(e, i)"
+      tabindex="0"
+      (keyup.enter)="verDetalle(e, i)">
+      <div class="expo-thumb">
+        <img [src]="e.imagen" [alt]="e.titulo" />
+      </div>
+
+      <div class="expo-body">
+        <h3 class="expo-title">{{ e.titulo }}</h3>
+        <p class="expo-meta">{{ e.fecha }} · {{ e.lugar }}</p>
+        <p class="expo-desc">{{ e.descripcion }}</p>
+        <div class="expo-info">
+          <span class="chip">{{ e.medio }}</span>
+          <span class="chip">{{ e.dimensiones }}</span>
+        </div>
+
+        <div class="expo-actions">
+          <button class="btn btn-outline" (click)="verDetalle(e, i); $event.stopPropagation()">Ver detalle</button>
+          <a class="btn btn-primary" routerLink="/contact" (click)="$event.stopPropagation()">Reservar visita</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Detalle (panel expandido) -->
+<section class="expo-detail container" *ngIf="selected" aria-live="polite">
+  <div class="detail-card">
+    <button class="close" (click)="cerrarDetalle()" aria-label="Cerrar detalle">✕</button>
+
+    <div class="detail-media">
+      <img [src]="selected.imagen" [alt]="selected.titulo" />
+      <div class="detail-tags">
+        <span *ngFor="let t of selected.etiquetas" class="tag">#{{ t }}</span>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <h2>{{ selected.titulo }}</h2>
+      <p class="meta">{{ selected.fecha }} · {{ selected.lugar }}</p>
+      <p class="desc">{{ selected.descripcion }}</p>
+
+      <ul class="technical">
+        <li><strong>Medio:</strong> {{ selected.medio }}</li>
+        <li><strong>Dimensiones:</strong> {{ selected.dimensiones }}</li>
+        <li *ngIf="selected.lugar"><strong>Lugar:</strong> {{ selected.lugar }}</li>
+      </ul>
+
+      <div class="detail-controls">
+        <button class="btn btn-outline" (click)="prev()">‹ Anterior</button>
+        <button class="btn btn-outline" (click)="next()">Siguiente ›</button>
+        <a class="btn btn-primary" routerLink="/contact">Reservar asistencia</a>
+      </div>
+    </div>
+  </div>
+</section>

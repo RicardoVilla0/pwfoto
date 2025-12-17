@@ -1,0 +1,160 @@
+/* src/app/photographer-panel/dashboard/dashboard.css
+   Estilos Dashboard Fotógrafo — coherente con UI: Inter global, grises tenues, tarjetas y grid agradable.
+*/
+
+:root{
+  --max-w: 1100px;
+  --accent: #0e0e0e;
+  --muted: #6f7376;
+  --bg-soft: #f5f6f7;
+  --card: #ffffff;
+  --radius: 12px;
+  --shadow: 0 18px 48px rgba(0,0,0,0.08);
+}
+
+/* Page container */
+.dashboard-page {
+  min-height: calc(100vh - 120px);
+  padding: 28px 0;
+  background: linear-gradient(180deg,#fbfbfb,var(--bg-soft));
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.dash-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.dash-title h1 { margin:0; font-size:22px; color:var(--accent); }
+.dash-title .muted { color:var(--muted); margin-top:6px; }
+
+/* Header actions */
+.dash-actions { display:flex; gap:10px; }
+.btn { padding:8px 12px; border-radius:999px; font-weight:700; cursor:pointer; border:0; }
+.btn-primary { background:#111; color:#fff; }
+.btn-outline { background:transparent; border:1px solid rgba(0,0,0,0.06); color:var(--accent); }
+
+/* Grid main */
+.dash-grid {
+  display:grid;
+  grid-template-columns: 1fr 320px;
+  gap: 18px;
+  align-items:start;
+}
+
+/* Stats cards area */
+.stats {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.stat-card {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+  text-align:center;
+}
+.stat-card h3 { margin:0; font-size:20px; color:var(--accent); }
+.stat-card p { margin:6px 0 0; color:var(--muted); font-size:13px; }
+
+/* Bookings (right column) */
+.bookings {
+  background: linear-gradient(180deg,#fff,#fafafa);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+}
+.bookings h2 { margin:0 0 8px; font-size:16px; color:var(--accent); }
+.booking-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+.booking-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding: 10px;
+  border-radius:8px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+.b-client { font-weight:700; color:var(--accent); }
+.b-type { color:var(--muted); font-size:13px; }
+.status {
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:12px;
+}
+.status[data-status="Pendiente"] { background: #fff7e6; color: #b06a00; border:1px solid rgba(176,106,0,0.08); }
+.status[data-status="Confirmado"] { background: #e8fff3; color: #147a3d; border:1px solid rgba(20,122,61,0.06); }
+.status[data-status="Completado"] { background:#eef6ff; color:#0a56a4; border:1px solid rgba(10,86,164,0.06); }
+.status[data-status="Cancelado"] { background:#fff0f0; color:#b02a2a; border:1px solid rgba(176,42,42,0.06); }
+
+/* Albums section (below stats) */
+.albums {
+  margin-top: 10px;
+}
+.albums h2 { margin: 0 0 8px; font-size:16px; color:var(--accent); }
+.album-grid {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.album-card {
+  background: var(--card);
+  border-radius: 10px;
+  overflow:hidden;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+}
+.album-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+.album-cover { height:120px; overflow:hidden; background: #f5f5f6; }
+.album-cover img { width:100%; height:100%; object-fit:cover; display:block; }
+.album-meta { padding: 10px; }
+.album-meta h3 { margin:0; font-size:14px; color:var(--accent); }
+.album-meta .muted { font-size:13px; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.lightback { position:absolute; inset:0; background: rgba(0,0,0,0.75); }
+.lightinner {
+  position:relative;
+  width: min(900px, 92%);
+  max-height: 90vh;
+  background: linear-gradient(180deg,#fff,#fafafa);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.36);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.lightinner img { max-width:100%; max-height:82vh; object-fit:contain; display:block; }
+.lightinner .close { position:absolute; right:10px; top:10px; border:0; background:transparent; font-size:20px; cursor:pointer; }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .album-grid { grid-template-columns: repeat(2, 1fr); }
+  .bookings { order: 2; }
+  .albums { order: 1; }
+}
+@media (max-width: 520px) {
+  .stats { grid-template-columns: 1fr; }
+  .album-grid { grid-template-columns: 1fr; }
+  .album-cover { height:160px; }
+}

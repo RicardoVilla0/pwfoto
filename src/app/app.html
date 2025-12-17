@@ -1,0 +1,17 @@
+<!-- src/app/app.html -->
+<!-- Header siempre visible -->
+<app-header></app-header>
+
+<!-- Contenido principal intercambiable por routing -->
+<main id="main-content" role="main" style="min-height: calc(100vh - 160px);">
+  <!-- El router insertará aquí Home, Portfolio, Contact, etc. -->
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer siempre visible -->
+<app-footer></app-footer>
+
+<!-- Accesibilidad: salto al contenido -->
+<a class="skip-link" href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+  Skip to content
+</a>

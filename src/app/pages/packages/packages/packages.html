@@ -1,0 +1,55 @@
+<!-- src/app/pages/packages/packages/packages.html -->
+<section class="packages-hero">
+  <div class="container">
+    <h1 class="title">Paquetes</h1>
+    <p class="subtitle">Elige el paquete que mejor se adapte a tu proyecto o evento. Si necesitas algo personalizado, contáctanos.</p>
+  </div>
+</section>
+
+<section class="packages-list container" aria-label="Lista de paquetes">
+  <div class="packages-grid">
+    <article class="package-card" *ngFor="let pkg of paquetes" (click)="seleccionarPaquete(pkg)" tabindex="0" (keyup.enter)="seleccionarPaquete(pkg)">
+      <div class="thumb">
+        <img *ngIf="pkg.imagen" [src]="pkg.imagen" [alt]="pkg.nombre" />
+        <div *ngIf="!pkg.imagen" class="thumb-placeholder">{{ pkg.nombre }}</div>
+      </div>
+
+      <div class="card-body">
+        <h3 class="pkg-name">{{ pkg.nombre }}</h3>
+        <p class="pkg-price">{{ pkg.precio }} · {{ pkg.duracion }}</p>
+        <p class="pkg-desc">{{ pkg.descripcion }}</p>
+        <ul class="pkg-features">
+          <li *ngFor="let f of pkg.caracteristicas">{{ f }}</li>
+        </ul>
+        <div class="card-actions">
+          <a routerLink="/contact" class="btn btn-primary" (click)="$event.stopPropagation()">Reservar</a>
+          <button class="btn btn-outline" (click)="seleccionarPaquete(pkg); $event.stopPropagation()">Ver detalles</button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Detalle simple (no modal) -->
+<section class="package-detail container" *ngIf="selectedPackage">
+  <div class="detail-card">
+    <button class="close-detail" (click)="cerrarDetalle()" aria-label="Cerrar detalle">✕</button>
+    <div class="detail-media">
+      <img *ngIf="selectedPackage.imagen" [src]="selectedPackage.imagen" [alt]="selectedPackage.nombre" />
+    </div>
+    <div class="detail-body">
+      <h2>{{ selectedPackage.nombre }}</h2>
+      <p class="price">{{ selectedPackage.precio }} · {{ selectedPackage.duracion }}</p>
+      <p>{{ selectedPackage.descripcion }}</p>
+      <h4>Incluye</h4>
+      <ul>
+        <li *ngFor="let f of selectedPackage.caracteristicas">{{ f }}</li>
+      </ul>
+
+      <div class="detail-actions">
+        <a routerLink="/contact" class="btn btn-primary">Reservar este paquete</a>
+        <button class="btn btn-outline" (click)="cerrarDetalle()">Volver</button>
+      </div>
+    </div>
+  </div>
+</section>

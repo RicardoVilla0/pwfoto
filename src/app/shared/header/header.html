@@ -1,0 +1,50 @@
+<!-- src/app/shared/header/header.html -->
+<header class="site-header" [class.scrolled]="isScrolled">
+  <div class="header-inner">
+    <!-- Logo -->
+    <div class="logo">
+      <a routerLink="/home" (click)="closeMenu()">
+        <img src="/assets/logo.png" alt="Logo" />
+      </a>
+    </div>
+
+    <!-- Navegación principal -->
+    <nav class="main-nav" [class.open]="isMenuOpen" (click)="closeMenu()">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+      <a routerLink="/portfolio" routerLinkActive="active">Portafolio</a>
+      <a routerLink="/packages" routerLinkActive="active">Paquetes</a>
+      <a routerLink="/exhibition" routerLinkActive="active">Exposición</a>
+      <a routerLink="/contact" routerLinkActive="active">Contacto</a>
+    </nav>
+
+    <!-- Acciones a la derecha -->
+    <div class="right-actions">
+      <!-- 1) Si el usuario NO está logueado -> mostrar botones Login / Register -->
+      <ng-container *ngIf="(user$ | async) as user; else guest">
+        <!-- Usuario logueado: mostrar nombre y menu perfil -->
+        <div class="user-area">
+          <button class="user-btn" (click)="goToProfile(user)">
+            <!-- Si no tienes nombre, mostramos email local-part -->
+            {{ user.name || (user.email.split('@')[0]) }}
+          </button>
+
+          <a class="profile-link" (click)="goToProfile(user)" role="button">Mi perfil</a>
+          <button class="signout" (click)="logout()">Cerrar sesión</button>
+        </div>
+      </ng-container>
+
+      <ng-template #guest>
+        <div class="guest-area">
+          <a routerLink="/login" (click)="closeMenu()" class="photographer-entry">Iniciar sesión</a>
+          <a routerLink="/register" (click)="closeMenu()" class="photographer-entry">Crear cuenta</a>
+        </div>
+      </ng-template>
+
+      <!-- Botón menú para móviles -->
+      <button class="menu-btn" (click)="toggleMenu()" aria-label="toggle menu">
+        <span *ngIf="!isMenuOpen" class="icon">☰</span>
+        <span *ngIf="isMenuOpen" class="icon">✕</span>
+      </button>
+    </div>
+  </div>
+</header>

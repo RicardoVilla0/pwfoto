@@ -1,0 +1,73 @@
+<!-- src/app/auth/register/register.html -->
+<div class="auth-page">
+  <div class="auth-card">
+    <header class="auth-head">
+      <img class="auth-logo" src="/assets/logo.png" alt="Logo" />
+      <div>
+        <h1>Crear cuenta</h1>
+        <p class="muted">Regístrate como cliente o fotógrafo para acceder al panel.</p>
+      </div>
+    </header>
+
+    <form class="auth-form" (ngSubmit)="register()" novalidate>
+      <label class="field full">
+        <span>Nombre completo</span>
+        <input type="text" name="name" [(ngModel)]="name" required placeholder="Tu nombre" />
+      </label>
+
+      <label class="field full">
+        <span>Correo</span>
+        <input type="email" name="email" [(ngModel)]="email" required placeholder="tu@correo.com" />
+      </label>
+
+      <div class="row">
+        <label class="field">
+          <span>Contraseña</span>
+          <input type="password" name="password" [(ngModel)]="password" required placeholder="Mín. 6 caracteres" />
+        </label>
+
+        <label class="field">
+          <span>Confirmar</span>
+          <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required placeholder="Repite la contraseña" />
+        </label>
+      </div>
+
+      <div class="row small">
+        <label class="field-inline">
+          <span>Rol</span>
+          <select name="role" [(ngModel)]="role">
+            <option value="client">Cliente</option>
+            <option value="photographer">Fotógrafo</option>
+          </select>
+        </label>
+
+        <label class="field-inline tos">
+          <input type="checkbox" name="tos" [(ngModel)]="acceptTos" />
+          <span>Acepto los términos</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">Crear cuenta</span>
+          <span *ngIf="loading">Creando…</span>
+        </button>
+
+        <button class="btn btn-outline" type="button" (click)="goToLogin()">Ya tengo cuenta</button>
+      </div>
+
+      <div class="status">
+        <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+      </div>
+    </form>
+
+    <div class="socials">
+      <p class="muted">O regístrate con</p>
+      <div class="social-buttons">
+        <a class="social" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+        <a class="social" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</div>

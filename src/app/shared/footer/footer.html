@@ -1,0 +1,37 @@
+<!-- src/app/shared/footer/footer.html -->
+<footer class="site-footer" role="contentinfo" aria-label="Footer del sitio">
+  <div class="footer-inner container">
+    <!-- Izquierda: logo y copyright -->
+    <div class="footer-left">
+      <a class="footer-logo" routerLink="/home" aria-label="Ir al inicio">
+        <img src="https://i.ibb.co/yFfB65j0/584abf102912007028bd9332.png" alt="Logo del estudio" />
+      </a>
+      <p class="brand">© {{ currentYear }} Nombre del Estudio. Todos los derechos reservados.</p>
+    </div>
+
+    <!-- Centro: enlaces rápidos -->
+    <div class="footer-center" aria-label="Enlaces rápidos">
+      <h4 class="footer-title">Navegación</h4>
+      <nav class="footer-nav" aria-label="Enlaces de pie de página">
+        <a routerLink="/home">Inicio</a>
+        <a routerLink="/portfolio">Portafolio</a>
+        <a routerLink="/packages">Paquetes</a>
+        <a routerLink="/exhibition">Exposición</a>
+        <a routerLink="/contact">Contacto</a>
+      </nav>
+    </div>
+
+    <!-- Derecha: contacto y redes (Apunta a páginas principales) -->
+    <div class="footer-right">
+      <div class="contact-actions">
+        <button class="btn btn-outline" (click)="openEmail()" aria-label="Enviar correo">Correo</button>
+        <button class="btn btn-solid" (click)="openSocial('whatsapp')" aria-label="Abrir WhatsApp">WhatsApp</button>
+      </div>
+
+      <div class="socials" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+  </div>
+</footer>

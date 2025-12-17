@@ -1,0 +1,79 @@
+<!-- src/app/photographer-panel/dashboard/dashboard.html -->
+<section class="dashboard-page">
+  <div class="dashboard-inner container">
+    <header class="dash-head">
+      <div class="dash-title">
+        <h1>Panel — Fotógrafo</h1>
+        <p class="muted">Resumen rápido de tu estudio y accesos directos.</p>
+      </div>
+
+      <div class="dash-actions">
+        <button class="btn btn-outline" (click)="goToProfile()">Mi perfil</button>
+        <button class="btn btn-primary" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <section class="dash-grid">
+      <!-- Stats -->
+      <div class="stats">
+        <article class="stat-card">
+          <h3>{{ stats.sesionesEsteMes }}</h3>
+          <p>Sesiones este mes</p>
+        </article>
+        <article class="stat-card">
+          <h3>$ {{ stats.ingresosMes | number }}</h3>
+          <p>Ingresos (mes)</p>
+        </article>
+        <article class="stat-card">
+          <h3>{{ stats.pendientes }}</h3>
+          <p>Reservas pendientes</p>
+        </article>
+        <article class="stat-card">
+          <h3>{{ stats.resenas }}</h3> <!-- <- aquí usamos la propiedad sin ñ -->
+          <p>Reseñas</p>
+        </article>
+      </div>
+
+      <!-- Reservas recientes -->
+      <aside class="bookings">
+        <h2>Reservas recientes</h2>
+        <ul class="booking-list">
+          <li *ngFor="let b of bookings" class="booking-item">
+            <div class="b-left">
+              <div class="b-client">{{ b.client }}</div>
+              <div class="b-type">{{ b.type }} · <span class="muted">{{ b.date }}</span></div>
+            </div>
+            <div class="b-right">
+              <span class="status" [attr.data-status]="b.status">{{ b.status }}</span>
+            </div>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Álbumes -->
+      <section class="albums">
+        <h2>Álbumes recientes</h2>
+        <div class="album-grid">
+          <article class="album-card" *ngFor="let a of albums" (click)="openAlbum(a.id)" tabindex="0" role="button" (keyup.enter)="openAlbum(a.id)">
+            <div class="album-cover">
+              <img [src]="a.cover" [alt]="a.title" />
+            </div>
+            <div class="album-meta">
+              <h3>{{ a.title }}</h3>
+              <p class="muted">{{ a.count }} fotos</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" *ngIf="lightboxOpen">
+    <div class="lightback" (click)="closeLightbox()"></div>
+    <div class="lightinner">
+      <button class="close" (click)="closeLightbox()">✕</button>
+      <img [src]="lightboxSrc" alt="Vista" />
+    </div>
+  </div>
+</section>

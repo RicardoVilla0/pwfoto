@@ -1,0 +1,79 @@
+<!-- src/app/client-panel/dashboard/dashboard.html -->
+<section class="client-dashboard">
+  <div class="container dash-wrap">
+    <header class="dash-header">
+      <div>
+        <h1>Panel — Cliente</h1>
+        <p class="muted">Bienvenido. Aquí puedes ver tus reservas, historial y realizar nuevas reservas.</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-outline" (click)="newBooking()">Reservar sesión</button>
+        <button class="btn btn-primary" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="dash-grid">
+      <!-- columna principal: reservas -->
+      <section class="main-col">
+        <div class="summary-cards">
+          <article class="card">
+            <h3>{{ summary.proximas }}</h3> <!-- <-- propiedad sin acento -->
+            <p>Próximas sesiones</p>
+          </article>
+          <article class="card">
+            <h3>$ {{ summary.gastado | number }}</h3>
+            <p>Total gastado</p>
+          </article>
+          <article class="card">
+            <h3>{{ summary.pendientes }}</h3>
+            <p>Reservas pendientes</p>
+          </article>
+        </div>
+
+        <section class="bookings-section">
+          <h2>Tus reservas</h2>
+
+          <ul class="booking-list" aria-live="polite">
+            <li *ngFor="let b of bookings" class="booking-item">
+              <div class="left">
+                <div class="type">{{ b.type }} · <span class="muted">{{ b.photographer }}</span></div>
+                <div class="when">{{ b.date }} <span *ngIf="b.time">· {{ b.time }}</span></div>
+                <div class="price">$ {{ b.price | number }}</div>
+              </div>
+
+              <div class="right">
+                <div class="status" [attr.data-status]="b.status">{{ b.status }}</div>
+                <div class="btns">
+                  <button class="btn btn-outline" (click)="viewBooking(b.id)">Ver</button>
+                  <button class="btn btn-danger" (click)="cancelBooking(b.id)" [disabled]="b.status === 'Cancelado' || b.status === 'Completado'">Cancelar</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- columna derecha: perfil rápido / historial -->
+      <aside class="side-col">
+        <div class="profile-card">
+          <h3>Tu cuenta</h3>
+          <p class="muted">Cliente registrado</p>
+          <div class="meta">
+            <p><strong>Nombre:</strong> Usuario Demo</p>
+            <p><strong>Email:</strong> demo@cliente.com</p>
+          </div>
+        </div>
+
+        <div class="history-card">
+          <h4>Últimas sesiones</h4>
+          <ul>
+            <li *ngFor="let b of bookings | slice: -3">
+              <span class="muted">{{ b.date }}</span> — {{ b.type }} ({{ b.status }})
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+  </div>
+</section>

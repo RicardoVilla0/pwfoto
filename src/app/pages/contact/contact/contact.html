@@ -1,0 +1,92 @@
+<!-- src/app/pages/contact/contact/contact.html -->
+<section class="contact-hero" aria-hidden="false">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h1 class="hero-title">Contacto</h1>
+      <p class="hero-lead">¿Quieres reservar una sesión, preguntar disponibilidad o visitar una exposición? Aquí están las vías de contacto y un formulario rápido para escribirnos.</p>
+
+      <div class="hero-ctas">
+        <a routerLink="/portfolio" class="btn btn-outline">Ver portafolio</a>
+        <a routerLink="/exhibition" class="btn btn-primary">Ver exposiciones</a>
+      </div>
+    </div>
+
+    <figure class="hero-image" aria-hidden="true">
+      <img src="assets/exibir5.jpg" alt="Fotografía decorativa" />
+    </figure>
+  </div>
+</section>
+
+<main id="main-contact" class="contact-main container" role="main">
+  <!-- Info principal y formulario lado a lado -->
+  <section class="contact-grid">
+
+    <!-- Columna izquierda: info rápida y tarjetas -->
+    <aside class="contact-info" id="contact-info" tabindex="-1" aria-labelledby="contact-title">
+      <h2 id="contact-title">Información</h2>
+      <p class="muted">Encuéntranos o escríbenos por las vías que prefieras. Respondemos rápidamente entre semana.</p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Teléfono / WhatsApp</h3>
+          <p><a href="https://www.whatsapp.com/" target="_blank" rel="noopener">WhatsApp</a> — preferible para reservas rápidas</p>
+        </div>
+
+        <div class="card">
+          <h3>Correo</h3>
+          <p><a href="mailto:contacto@estudio.com">contacto@estudio.com</a></p>
+        </div>
+
+        <div class="card">
+          <h3>Horario</h3>
+          <p>Lun–Vie · 10:00 — 18:00</p>
+        </div>
+
+        <div class="card">
+          <h3>Dirección</h3>
+          <p>Calle Falsa 123, Col. Centro, Ciudad</p>
+        </div>
+      </div>
+
+      <div class="map-area" aria-label="Mapa de ubicación">
+        <!-- placeholder para mapa / iframe si lo integras después -->
+        <img src="assets/exibir1.jpg" alt="Mapa / croquis" />
+      </div>
+    </aside>
+
+    <!-- Columna derecha: formulario -->
+    <section class="contact-form-wrapper" aria-labelledby="form-title">
+      <h2 id="form-title">Escríbenos</h2>
+      <p class="muted">Cuéntanos brevemente tu proyecto, fecha y tipo de sesión. Te responderemos lo antes posible.</p>
+
+      <form class="contact-form" (submit)="$event.preventDefault(); onSubmit($event)" novalidate>
+        <label class="field">
+          <span>Nombre</span>
+          <input type="text" name="name" placeholder="Tu nombre" required />
+        </label>
+
+        <label class="field">
+          <span>Correo</span>
+          <input type="email" name="email" placeholder="tu@correo.com" required />
+        </label>
+
+        <label class="field">
+          <span>Teléfono (opcional)</span>
+          <input type="tel" name="phone" placeholder="+52 1 55 1234 5678" />
+        </label>
+
+        <label class="field">
+          <span>Mensaje</span>
+          <textarea name="message" rows="6" placeholder="Cuéntame sobre la sesión, fecha aproximada, ubicación..." required></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Enviar mensaje</button>
+          <button class="btn btn-outline" type="reset">Borrar</button>
+        </div>
+
+        <p class="small-muted">Al enviar aceptas nuestra política de privacidad. Te contactaremos por correo o WhatsApp.</p>
+      </form>
+    </section>
+  </section>
+</main>

@@ -1,0 +1,132 @@
+<!-- src/app/pages/portfolio/portafolio/portafolio.html -->
+<section class="portfolio-hero">
+  <div class="container">
+    <div class="hero-head">
+      <div class="hero-left">
+        <h1 class="title">Álbumes & Proyectos</h1>
+        <p class="subtitle">Explora los proyectos del fotógrafo: cada álbum contiene una selección curada de imágenes.</p>
+      </div>
+
+      <div class="controls">
+        <div class="filters" role="tablist" aria-label="Filtrar álbumes">
+          <button
+            *ngFor="let f of filters"
+            (click)="setFilter(f)"
+            [class.active]="activeFilter === f"
+            class="filter-btn"
+            type="button"
+            role="tab"
+            aria-selected="{{ activeFilter === f }}">
+            {{ f }}
+          </button>
+        </div>
+
+        <div class="search">
+          <input type="search" placeholder="Buscar álbum, etiqueta o descripción..." [(ngModel)]="search" />
+          <button *ngIf="search" class="clear" (click)="clearSearch()">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery container" aria-live="polite">
+  <div class="gallery-grid">
+    <article
+      class="album-card"
+      *ngFor="let album of filteredAlbums"
+      (click)="openAlbumPanel(album)"
+      tabindex="0"
+      role="button"
+      (keyup.enter)="openAlbumPanel(album)">
+      <div class="cover">
+        <img [src]="album.cover" [alt]="album.title" (error)="onImageError($event)" />
+        <div class="cover-badge">{{ album.photos.length }} fotos</div>
+      </div>
+
+      <div class="meta">
+        <h3 class="album-title">{{ album.title }}</h3>
+        <p class="album-sub">{{ album.year }} · {{ album.category }}</p>
+        <p class="album-desc" *ngIf="album.description">{{ album.description }}</p>
+        <div class="tags">
+          <span *ngFor="let t of album.tags" class="tag">#{{ t }}</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="see-more" *ngIf="filteredAlbums.length === 0">
+    <p>No se encontraron álbumes con esos criterios.</p>
+  </div>
+</section>
+
+<!-- Album panel (overlay tipo drawer/modal) -->
+<div class="album-panel" *ngIf="openAlbum" role="dialog" aria-modal="true">
+  <div class="panel-backdrop" (click)="closeAlbumPanel()"></div>
+
+  <div class="panel-inner" role="document" tabindex="-1">
+    <header class="panel-header">
+      <div class="panel-cover">
+        <img [src]="openAlbum.cover" [alt]="openAlbum.title" (error)="onImageError($event)" />
+      </div>
+
+      <div class="panel-meta-wrap">
+        <h2>{{ openAlbum.title }}</h2>
+        <p class="panel-meta">{{ openAlbum.year }} · {{ openAlbum.category }}</p>
+        <p class="panel-desc" *ngIf="openAlbum.description">{{ openAlbum.description }}</p>
+        <div class="panel-tags">
+          <span *ngFor="let t of openAlbum.tags" class="tag">#{{ t }}</span>
+        </div>
+
+        <div class="panel-actions-head">
+          <a routerLink="/contact" class="btn btn-primary">Reservar sesión</a>
+          <button class="btn btn-outline" (click)="closeAlbumPanel()">Cerrar</button>
+        </div>
+      </div>
+
+      <button class="close floating" (click)="closeAlbumPanel()" aria-label="Cerrar álbum">✕</button>
+    </header>
+
+    <section class="thumbs">
+      <div class="thumb-grid">
+        <figure
+          class="thumb-item"
+          *ngFor="let p of openAlbum.photos; let i = index"
+          (click)="openLightbox(i)"
+          tabindex="0"
+          (keyup.enter)="openLightbox(i)">
+          <img [src]="p.src" [alt]="p.title || ('Foto ' + (i+1))" (error)="onImageError($event)" />
+          <figcaption>{{ p.title }}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="panel-footer">
+      <p class="desc" *ngIf="openAlbum.description">{{ openAlbum.description }}</p>
+      <div class="panel-actions">
+        <a routerLink="/contact" class="btn btn-primary">Reservar sesión</a>
+        <button class="btn btn-outline" (click)="closeAlbumPanel()">Volver</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Lightbox (foto individual dentro del album) -->
+<div class="lightbox" *ngIf="openAlbum && lightboxIndex !== null" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop" (click)="closeLightbox()"></div>
+
+  <div class="lightbox-inner">
+    <button class="close" (click)="closeLightbox()" aria-label="Cerrar vista">✕</button>
+    <button class="nav prev" (click)="prevPhoto()" aria-label="Anterior">‹</button>
+
+    <div class="lightbox-media">
+      <img *ngIf="openAlbum" [src]="openAlbum.photos[lightboxIndex].src" [alt]="openAlbum.photos[lightboxIndex].title" (error)="onImageError($event)" />
+      <div class="caption" *ngIf="openAlbum">
+        <h3>{{ openAlbum.photos[lightboxIndex].title }}</h3>
+        <p>{{ openAlbum.title }} · {{ openAlbum.year }}</p>
+      </div>
+    </div>
+
+    <button class="nav next" (click)="nextPhoto()" aria-label="Siguiente">›</button>
+  </div>
+</div>

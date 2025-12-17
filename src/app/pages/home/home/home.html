@@ -1,0 +1,76 @@
+<!-- src/app/pages/home/home.html -->
+<section class="hero">
+  <div class="hero-inner container">
+    <div class="hero-left">
+      <h1 class="hero-title">Captura momentos, crea recuerdos</h1>
+      <p class="hero-sub">Fotografía profesional para retratos, eventos y proyectos creativos.</p>
+
+      <div class="hero-ctas">
+        <a routerLink="/portfolio" class="btn btn-primary">Ver portafolio</a>
+        <a routerLink="/packages" class="btn btn-outline">Paquetes</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="carousel" (mouseenter)="stopAutoplay()" (mouseleave)="startAutoplay()">
+        <div class="slides">
+          <figure
+            class="slide"
+            *ngFor="let img of images; let i = index"
+            [class.active]="i === currentIndex">
+            <img [src]="img.src" [alt]="img.alt" (error)="onImageError($event, fallbackImage)" />
+            <figcaption class="caption">{{ img.caption }}</figcaption>
+          </figure>
+        </div>
+
+        <!-- Indicadores -->
+        <div class="indicators" role="tablist">
+          <button
+            *ngFor="let _ of images; let i = index"
+            (click)="goTo(i)"
+            [class.active]="i === currentIndex"
+            aria-label="Ir a la imagen {{ i + 1 }}">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="container">
+    <h2 class="section-title">Servicios</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Retratos</h3>
+        <p>Sesiones en estudio y exteriores para retratos personales y familiares.</p>
+      </article>
+      <article class="card">
+        <h3>Eventos</h3>
+        <p>Cobertura para bodas, corporativos y celebraciones privadas.</p>
+      </article>
+      <article class="card">
+        <h3>Comercial</h3>
+        <p>Fotografía de producto, moda y dirección artística para marcas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio-preview">
+  <div class="container">
+    <h2 class="section-title">Avance del portafolio</h2>
+
+    <!-- GRID: miniaturas a partir de galleryImages -->
+    <div class="grid">
+      <div class="photo-sample" *ngFor="let g of galleryImages">
+        <img [src]="g" [alt]="'Galería ' + g" (error)="onImageError($event, fallbackImage)"
+             style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+      </div>
+    </div>
+
+    <div class="see-more">
+      <a routerLink="/portfolio" class="btn btn-primary">Ver galería completa</a>
+    </div>
+  </div>
+</section>
